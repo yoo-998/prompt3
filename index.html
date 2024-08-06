@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>숫자 맞추기 게임</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .game-container {
+            text-align: center;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        input {
+            padding: 10px;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+        .message {
+            margin-top: 10px;
+            font-size: 18px;
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+        .popup.active {
+            display: block;
+        }
+        .popup button {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>숫자 맞추기 게임</h1>
+        <input type="number" id="guessInput" placeholder="1에서 100 사이의 숫자를 입력하세요">
+        <button onclick="checkGuess()">제출</button>
+        <div class="message" id="message"></div>
+    </div>
+    <div class="popup" id="popup">
+        <p id="popupMessage"></p>
+        <button onclick="closePopup()">확인</button>
+    </div>
+    <script>
+        const secretNumber = Math.floor(Math.random() * 100) + 1;
+        const messageElement = document.getElementById('message');
+        const popupElement = document.getElementById('popup');
+        const popupMessageElement = document.getElementById('popupMessage');
+        
+        function checkGuess() {
+            const guess = parseInt(document.getElementById('guessInput').value);
+            if (isNaN(guess) || guess < 1 || guess > 100) {
+                messageElement.textContent = '1에서 100 사이의 숫자를 입력하세요!';
+                return;
+            }
+
+            if (guess === secretNumber) {
+                popupMessageElement.textContent = '정답입니다! 축하합니다!';
+                popupElement.classList.add('active');
+            } else if (guess < secretNumber) {
+                messageElement.textContent = '더 큰 숫자를 입력하세요!';
+            } else {
+                messageElement.textContent = '더 작은 숫자를 입력하세요!';
+            }
+        }
+
+        function closePopup() {
+            popupElement.classList.remove('active');
+            // Optionally reset the game here
+        }
+    </script>
+</body>
+</html>
